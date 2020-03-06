@@ -23,7 +23,7 @@ public class LuckySearch {
     private int searchCount;
     private boolean found;
 
-    LuckySearch() {
+    public LuckySearch() {
         a = genArray(N);
         random = new Random();
     }
