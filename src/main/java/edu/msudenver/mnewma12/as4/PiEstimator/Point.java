@@ -1,13 +1,23 @@
 package edu.msudenver.mnewma12.as4.PiEstimator;
 
+import edu.msudenver.mnewma12.as4.cli.CLI;
+
 import java.util.Objects;
 
 public class Point {
 
+    public static void main(String[] args) {
+        Point center = new Point(0, 0);
+        Point o = new Point(5, 0);
+        center.distanceSquared(o);
+    }
+
     static double getRandom() { return Math.random() * 2 - 1; }
 
     static Point getRandomPoint() {
-        return new Point(getRandom(), getRandom());
+        Point p = new Point(getRandom(), getRandom());
+//        CLI.echoLn("RANDOM POINT: " + p);
+        return p;
     }
 
     private double x, y;
@@ -18,7 +28,11 @@ public class Point {
     }
 
     public double distanceSquared(Point o) {
-        return Math.abs( Math.pow(x - o.x, 2) + Math.pow(y - o.y, 2) );
+        double xdelt = Math.pow(x - o.x, 2);
+        double ydelt = Math.pow(y - o.y, 2);
+//        CLI.echoLn(xdelt + "");
+//        CLI.echoLn(ydelt + "");
+        return xdelt + ydelt;
     }
 
     // bean spec?
