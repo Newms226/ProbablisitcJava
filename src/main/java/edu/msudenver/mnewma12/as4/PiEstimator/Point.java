@@ -12,10 +12,14 @@ public class Point {
         center.distanceSquared(o);
     }
 
-    static double getRandom() { return Math.random() * 2 - 1; }
+    static double getRandom(int n) { return Math.random() * 2 * n - n; }
 
-    static Point getRandomPoint() {
-        Point p = new Point(getRandom(), getRandom());
+    public static double distance(double x1, double y1, double x2, double y2) {
+        return new Point(x1, y1).distance(new Point(x2, y2));
+    }
+
+    static Point getRandomPoint(int n) {
+        Point p = new Point(getRandom(n), getRandom(n));
 //        CLI.echoLn("RANDOM POINT: " + p);
         return p;
     }
@@ -33,6 +37,10 @@ public class Point {
 //        CLI.echoLn(xdelt + "");
 //        CLI.echoLn(ydelt + "");
         return xdelt + ydelt;
+    }
+
+    public double distance(Point o) {
+        return Math.sqrt(distanceSquared(o));
     }
 
     // bean spec?

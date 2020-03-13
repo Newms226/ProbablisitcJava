@@ -33,7 +33,7 @@ public class DartThrower {
     public double run() {
         CLI.echoLn("Estimating pi...");
         double insideCount = points.stream()
-                .map(_null -> Point.getRandomPoint())
+                .map(_null -> Point.getRandomPoint(1))
                 .map(circle::isInside) // would it be faster w/o an obj? just a fn?
                 .filter(inside -> inside)
                 .count();

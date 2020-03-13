@@ -16,6 +16,10 @@ public class CLI {
             NumberFormat.getIntegerInstance();
 
 
+    public static void echoLn(Object o) {
+        echoLn(o.toString());
+    }
+
     public static void echoLn(String s) {
         System.out.println(s);
     }
@@ -158,12 +162,6 @@ public class CLI {
         echoLn(s);
         echoLn("Goodbye! ^.^");
         System.exit(0);
-    }
-
-    public static String formatDouble(double elapsed) {
-        synchronized (formatter) {
-            return formatter.format(elapsed);
-        }
     }
 
     public static String boolToChar(boolean toConvert) {

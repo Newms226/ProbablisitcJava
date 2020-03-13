@@ -4,7 +4,7 @@ import edu.msudenver.mnewma12.as4.tools.NumberTools;
 
 import java.util.ArrayList;
 
-import static edu.msudenver.mnewma12.as4.core.Runner.ARRAY_RUN_COUNT;
+import static edu.msudenver.mnewma12.as4.luckySearch.Runner.ARRAY_RUN_COUNT;
 
 public class Stats {
 
