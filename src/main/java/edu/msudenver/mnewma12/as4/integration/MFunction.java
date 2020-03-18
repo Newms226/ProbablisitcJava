@@ -16,19 +16,19 @@ public interface MFunction extends UnaryOperator<Double> {
         double fAtX = apply(x);
 
 
-//        CLI.echoLn("Evaluating point " + p);
-//        CLI.echoLn(" f(" + x + ") = " + fAtX);
-//        CLI.echoLn(" Point Y: " + y);
+        CLI.echoLn("Evaluating point " + p);
+        CLI.echoLn(" f(" + x + ") = " + fAtX);
+        CLI.echoLn(" Point Y: " + y);
 
         if (y == 0) {
-            isUnder = false;
+            isUnder = true;
         } else {
 //            fAtX = apply(p.getX());
             if (y < 0) isUnder = fAtX < y;
             else isUnder = fAtX > y;
         }
 
-//        CLI.echoLn(isUnder ? " INSIDE" : " OUTSIDE");
+        CLI.echoLn(isUnder ? " INSIDE" : " OUTSIDE");
         return isUnder;
     }
 

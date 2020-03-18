@@ -1,17 +1,22 @@
 package edu.msudenver.mnewma12.as4.core;
 
 import edu.msudenver.mnewma12.as4.PiEstimator.Point;
+import edu.msudenver.mnewma12.as4.cli.CLI;
 import edu.msudenver.mnewma12.as4.integration.MFunction;
 
 public class EstimationBox {
+
+    public static void main(String[] args) {
+
+    }
 
     static double yRange(double yMin, double yMax) {
         return Point.distance(0, yMin, 0, yMax);
     }
 
-    double xMin, xMax, yMin, yMax, yRange;
+    private double xMin, xMax, yMin, yMax, yRange;
 
-    MFunction f;
+    private MFunction f;
 
     public EstimationBox(MFunction f, double xMin, double xMax) {
         this.xMin = xMin;
@@ -19,9 +24,10 @@ public class EstimationBox {
         this.f = f;
 
         yMax = f.maxYBetween0And(xMax);
-        yMin = f.minYBetween0And(xMin);
+        yMin = f.minYBetween0And(xMax);
 
         yRange = yRange(yMin, yMax);
+        CLI.echoLn("ESTIMATION BOX: (0-10). Y Range: " + yRange);
     }
 
     public double ranX() { return Math.random() * xMax; }

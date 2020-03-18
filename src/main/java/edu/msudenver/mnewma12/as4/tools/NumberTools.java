@@ -13,6 +13,7 @@ public class NumberTools {
         }
     }
 
+
     /* percentDifference calculates the percent difference between two numbers.
      * @param: origional is the first number
      *         newNumber is the number on which to calculate the difference
@@ -48,6 +49,11 @@ public class NumberTools {
     }
 
     public static String formatNanoseconds(long nanoseconds) {
-        return formatDouble(nanoseconds) + " second" + (nanoseconds > 1 ? "s": "");
+        return formatDouble(nanoseconds) + " nanosecond" + (nanoseconds > 1 ? "s": "")
+                + " (" + nanoToReg(nanoseconds) + " seconds)";
+    }
+
+    public static double nanoToReg(long nanoseconds) {
+        return ((double)nanoseconds) / 1_000_000_000;
     }
 }

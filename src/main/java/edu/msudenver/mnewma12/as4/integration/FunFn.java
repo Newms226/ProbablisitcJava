@@ -3,26 +3,26 @@ package edu.msudenver.mnewma12.as4.integration;
 public class FunFn implements MFunction {
     @Override
     public double expected() {
-        return 7.8466942;
+        return 176_290;
     }
 
     @Override
     public double maxYBetween0And(double n) {
-        return 8;
+        return 52_679;
     }
 
     @Override
     public double minYBetween0And(double n) {
-        return -5;
+        return -521;
     }
 
     @Override
     public Double apply(Double aDouble) {
-        return aDouble * Math.sin(aDouble);
+        return (-5 * Math.pow(aDouble, 3)) + (582 * Math.pow(aDouble, 2)) - 521;
     }
 
     @Override
     public String toString() {
-        return "x * sin(x)";
+        return "-5x^³ + 582x² - 521";
     }
 }

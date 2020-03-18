@@ -15,33 +15,24 @@ import java.util.stream.Stream;
 public class Runner {
 
     public static void main(String[] args) {
-        runAndSave("/Users/michaelnewman/Semester/CS4050/algs-as3/logs/run1.txt");
+        runAndSave("/Users/michaelnewman/Semester/CS4050/algs-as3/logs/latest.txt");
+//        CLI.echoLn( monteCarloA( new FunFn() ) );
     }
 
+    static StringBuffer buf = new StringBuffer();
+    static int RUN_COUNT = 10;
+
+    static String CSV_HEADERS = "Run,Dart Value,Dart Time,Mean Value,Mean Time,Trapezoid Value,Trapezoid Time";
+
     static void runAndSave(String file) {
-        StringBuffer buf = new StringBuffer();
-        MFunction f = new XSquared();
-        int RUN_COUNT = 10;
         buf.append("Dart Count: " + DART_COUNT + "\n");
         buf.append("Random Count: " + MONTEB_RAN_COUNT + "\n");
         buf.append("Used trapezoid count: " + TRAPEZOID_N + "\n");
 
-        buf.append("\n\nX SQUARED\n##############\n");
-        for (int i = 0; i < RUN_COUNT; i++) {
-            buf.append("\n\n##########\nRUN #" + i + "\n##########\n");
-            buf.append( monteCarloA(f) + "\n\n");
-            buf.append( monteCarloB(f) + "\n\n");
-            buf.append( trapezoid(f) + "\n\n");
-        }
-
-        buf.append("-----------\n\n\nx * sin(x)\n##############\n");
-        f = new FunFn();
-        for (int i = 0; i < RUN_COUNT; i++) {
-            buf.append("\n\n##########\nRUN #" + i + "\n##########\n");
-            buf.append( monteCarloA(f) + "\n\n");
-            buf.append( monteCarloB(f) + "\n\n");
-            buf.append( trapezoid(f) + "\n\n");
-        }
+        MFunction f = new XSquared();
+//        run(f);
+//        f = new FunFn();
+        run(f);
 
         CLI.echoLn(buf.toString());
 
@@ -53,7 +44,20 @@ public class Runner {
         }
     }
 
-    static int DART_COUNT = 1_000;
+    static void run(MFunction f) {
+        buf.append("\n\n" + f + "\n##############\n" + CSV_HEADERS + "\n");
+        for (int i = 0; i < RUN_COUNT; i++) {
+            buf.append(i + ",");
+            monteCarloA(f);
+            buf.append(",");
+            monteCarloB(f);
+            buf.append(",");
+            trapezoid(f);
+            buf.append("\n");
+        }
+    }
+
+    static int DART_COUNT = 100_000;
 
     public static String monteCarloA(final MFunction f) {
         long start = System.nanoTime();
@@ -69,6 +73,10 @@ public class Runner {
                     DartCollector::combine);
 
         long end = System.nanoTime();
+
+        CLI.echoLn(results);
+
+        buf.append(results.estimate() + "," + (end - start));
 
         return toString(f, results, results.estimate(), end - start);
     }
@@ -93,6 +101,10 @@ public class Runner {
 
         long end = System.nanoTime();
 
+
+
+        buf.append(estimation.estimate() + "," + (end - start));
+
         return toString(f, estimation, estimation.estimate(), end - start);
     }
 
@@ -103,6 +115,8 @@ public class Runner {
         TrapezoidBox box = new TrapezoidBox(f, 0, 10, TRAPEZOID_N);
         box.evaluate();
         long end = System.nanoTime();
+
+        buf.append(box.evaluation + "," + (end - start));
 
         return toString(f, box, box.evaluation, end - start);
     }

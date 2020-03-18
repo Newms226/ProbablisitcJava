@@ -26,7 +26,7 @@ public class DartCollector {
 
     void add(Point p) {
         points.add(p);
-        if (f.isUnderCurve(p)) bellowCount++;
+        if (f.isUnderCurve(p)) { bellowCount++; };
     }
 
     DartCollector combine(DartCollector o) {

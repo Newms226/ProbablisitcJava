@@ -4,8 +4,6 @@ package edu.msudenver.mnewma12.as4.eightQueens;
 import edu.msudenver.mnewma12.as4.cli.CLI;
 import edu.msudenver.mnewma12.as4.eightQueens.IntPoint.Direction;
 
-import java.util.stream.Stream;
-
 public class Board {
 
     public static int SIZE = 8;
@@ -20,7 +18,7 @@ public class Board {
         Board b = new Board();
         for (int i = 0; i < count; i++) {
             IntPoint p = null;
-            do { p = getRandomLocation(); } while (! b.locationIsValid(p) );
+            do { p = getRandomLocation(); } while (! b.canPlaceQueenIn(p) );
             b.placeQueen(p);
         }
         return b;
@@ -36,18 +34,18 @@ public class Board {
 
     boolean hasQueen(IntPoint location) { return get(location); }
 
-    boolean locationIsValid(IntPoint location) {
-        boolean row = isRowEmpty(location.getX());
-        boolean col = isColumnEmpty(location.getY());
-        boolean diag = isDiagnoalEmpty(location);
-        CLI.echoLn("ROW: " + row + " COL: "+ col + " DIAG: " + diag);
+    boolean canPlaceQueenIn(IntPoint location) {
+//        boolean row = isRowEmpty(location.getX());
+//        boolean col = isColumnEmpty(location.getY());
+//        boolean diag = isDiagnoalEmpty(location);
+//        CLI.echoLn("ROW: " + row + " COL: "+ col + " DIAG: " + diag);
 
         return  isRowEmpty(location.getX())
                 && isColumnEmpty(location.getY())
                 && isDiagnoalEmpty(location);
     }
 
-    private boolean isColumnEmpty(int y) { return hasQueen( getColumn(y) ); }
+    public boolean isColumnEmpty(int y) { return hasQueen( getColumn(y) ); }
 
     private boolean isRowEmpty(int x) { return hasQueen( getRow(x) ); }
 
@@ -67,10 +65,10 @@ public class Board {
     }
 
     private boolean hasQueenInDirection(IntPoint location, Direction direction) {
-        return diagnoalEval(location.move(direction), direction);
+        return diagonalEval(location.move(direction), direction);
     }
 
-    private boolean diagnoalEval(IntPoint location, Direction direction) {
+    private boolean diagonalEval(IntPoint location, Direction direction) {
         if (!location.isValid()) return false;
         else if (hasQueen(location)) return true;
         else return hasQueenInDirection(location, direction);
@@ -88,17 +86,37 @@ public class Board {
                 || hasQueenInDirection(location, Direction.SW));
     }
 
+    void placeQueen(int x, int y) {
+        placeQueen( new IntPoint(x, y) );
+    }
+
     void placeQueen(IntPoint location) {
-        if (hasQueen(location)) {
+        if (canPlaceQueenIn(location)) {
+            board[location.getX()][location.getY()] = true;
+        } else if (hasQueen(location)) {
             Exception e = new IllegalArgumentException();
             CLI.fail("Tried to place a queen where there already was one", e);
-        } else if (locationIsValid(location)) {
-            board[location.getX()][location.getY()] = true;
         } else {
             Exception e = new IllegalArgumentException();
             CLI.fail(location + " is NOT a valid location.", e);
         }
     }
+
+    void removeQueen(IntPoint location) {
+        board[location.getX()][location.getY()] = false;
+    }
+
+    public int queenCount() {
+        int count = 0;
+        for (int x = 0; x < SIZE; x++) {
+            for (int y = 0; y < SIZE; y++) {
+                if (get(x, y)) count++;
+            }
+        }
+        return count;
+    }
+
+    public boolean isComplete() { return queenCount() == SIZE; }
 
     String printSpot(int x, int y) {
         return board[x][y] ? "Q" : " ";
@@ -106,7 +124,7 @@ public class Board {
 
     @Override
     public String toString() {
-        StringBuffer buf = new StringBuffer("   A|B|C|D|E|F|G|H\n");
+        StringBuffer buf = new StringBuffer("  |0|1|2|3|4|5|6|7|\n");
         for (int x = 0; x < SIZE; x++) {
             buf.append(x).append(" |");
             for (int y = 0; y < SIZE; y++) {
